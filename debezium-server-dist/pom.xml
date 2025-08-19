@@ -13,7 +13,7 @@
 
     <properties>
         <assembly.descriptor>server-distribution</assembly.descriptor>
-        <quarkus.package.type>legacy-jar</quarkus.package.type>
+        <quarkus.package.type>uber-jar</quarkus.package.type>
     </properties>
 
     <dependencies>
@@ -620,6 +620,55 @@
                 <dependency>
                     <groupId>io.debezium</groupId>
                     <artifactId>debezium-connector-cockroachdb</artifactId>
+                </dependency>
+            </dependencies>
+        </profile>
+        <profile>
+            <id>minimal-mariadb-nats</id>
+            <activation>
+                <activeByDefault>false</activeByDefault>
+            </activation>
+            <properties>
+                <assembly.descriptor>server-distribution-minimal</assembly.descriptor>
+            </properties>
+            <dependencies>
+                <!-- Core server components -->
+                <dependency>
+                    <groupId>io.debezium</groupId>
+                    <artifactId>debezium-server-core</artifactId>
+                    <exclusions>
+                        <!-- Exclude Kubernetes dependencies -->
+                        <exclusion>
+                            <groupId>io.quarkus</groupId>
+                            <artifactId>quarkus-kubernetes-config</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>io.debezium</groupId>
+                            <artifactId>debezium-storage-jdbc</artifactId>
+                        </exclusion>
+                        <exclusion>
+                            <groupId>io.debezium</groupId>
+                            <artifactId>debezium-storage-configmap</artifactId>
+                        </exclusion>
+                    </exclusions>
+                </dependency>
+
+                <!-- MariaDB Connector -->
+                <dependency>
+                    <groupId>io.debezium</groupId>
+                    <artifactId>debezium-connector-mariadb</artifactId>
+                </dependency>
+
+                <!-- File Storage (minimal storage implementation) -->
+                <dependency>
+                    <groupId>io.debezium</groupId>
+                    <artifactId>debezium-storage-file</artifactId>
+                </dependency>
+
+                <!-- NATS JetStream Sink -->
+                <dependency>
+                    <groupId>io.debezium</groupId>
+                    <artifactId>debezium-server-nats-jetstream</artifactId>
                 </dependency>
             </dependencies>
         </profile>
