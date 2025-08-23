@@ -16,6 +16,13 @@
         <quarkus.package.type>uber-jar</quarkus.package.type>
     </properties>
 
+    <repositories>
+        <repository>
+            <id>confluent</id>
+            <url>https://packages.confluent.io/maven/</url>
+        </repository>
+    </repositories>
+
     <dependencies>
         <dependency>
             <groupId>io.debezium</groupId>
@@ -25,6 +32,11 @@
     </dependencies>
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.16.1</version>
+            </plugin>
             <plugin>
                 <groupId>io.quarkus</groupId>
                 <artifactId>quarkus-maven-plugin</artifactId>
@@ -630,6 +642,13 @@
             </activation>
             <properties>
                 <assembly.descriptor>server-distribution-minimal</assembly.descriptor>
+                <!-- Version properties for automated updates -->
+                <confluent.version>7.6.0</confluent.version>
+                <minimal-json.version>0.9.5</minimal-json.version>
+                <re2j.version>1.7</re2j.version>
+                <snakeyaml.version>2.2</snakeyaml.version>
+                <swagger-annotations.version>1.6.12</swagger-annotations.version>
+                <logredactor.version>1.0.12</logredactor.version>
             </properties>
             <dependencies>
                 <!-- Core server components -->
@@ -670,7 +689,120 @@
                     <groupId>io.debezium</groupId>
                     <artifactId>debezium-server-nats-jetstream</artifactId>
                 </dependency>
+
+                <!-- Confluent Avro Converter Dependencies -->
+                <dependency>
+                    <groupId>io.confluent</groupId>
+                    <artifactId>kafka-connect-avro-converter</artifactId>
+                    <version>${confluent.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>io.confluent</groupId>
+                    <artifactId>kafka-connect-avro-data</artifactId>
+                    <version>${confluent.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>io.confluent</groupId>
+                    <artifactId>kafka-avro-serializer</artifactId>
+                    <version>${confluent.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>io.confluent</groupId>
+                    <artifactId>kafka-schema-serializer</artifactId>
+                    <version>${confluent.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>io.confluent</groupId>
+                    <artifactId>kafka-schema-converter</artifactId>
+                    <version>${confluent.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>io.confluent</groupId>
+                    <artifactId>kafka-schema-registry-client</artifactId>
+                    <version>${confluent.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>io.confluent</groupId>
+                    <artifactId>common-config</artifactId>
+                    <version>${confluent.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>io.confluent</groupId>
+                    <artifactId>common-utils</artifactId>
+                    <version>${confluent.version}</version>
+                </dependency>
+
+                <!-- Additional required dependencies -->
+                <dependency>
+                    <groupId>org.apache.avro</groupId>
+                    <artifactId>avro</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-compress</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>failureaccess</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.google.guava</groupId>
+                    <artifactId>guava</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.eclipsesource.minimal-json</groupId>
+                    <artifactId>minimal-json</artifactId>
+                    <version>${minimal-json.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>com.google.re2j</groupId>
+                    <artifactId>re2j</artifactId>
+                    <version>${re2j.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>org.yaml</groupId>
+                    <artifactId>snakeyaml</artifactId>
+                    <version>${snakeyaml.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>io.swagger</groupId>
+                    <artifactId>swagger-annotations</artifactId>
+                    <version>${swagger-annotations.version}</version>
+                </dependency>
+
+                <!-- Additional required dependencies from Debezium docs -->
+                <dependency>
+                    <groupId>org.slf4j</groupId>
+                    <artifactId>slf4j-api</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-core</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-annotations</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>com.fasterxml.jackson.dataformat</groupId>
+                    <artifactId>jackson-dataformat-csv</artifactId>
+                </dependency>
+                <dependency>
+                    <groupId>io.confluent</groupId>
+                    <artifactId>logredactor</artifactId>
+                    <version>${logredactor.version}</version>
+                </dependency>
+                <dependency>
+                    <groupId>io.confluent</groupId>
+                    <artifactId>logredactor-metrics</artifactId>
+                    <version>${logredactor.version}</version>
+                </dependency>
             </dependencies>
         </profile>
+
     </profiles>
 </project>
